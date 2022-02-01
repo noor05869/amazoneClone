@@ -15,7 +15,12 @@
     "next": "latest",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+<<<<<<< HEAD
     "react-redux": "7.2.2"
+=======
+    "react-redux": "7.2.2",
+    "react-responsive-carousel": "^3.2.22"
+>>>>>>> 708f8251bee0740a9bafb0d506ef7ff377e86b6c
   },
   "license": "MIT",
   "devDependencies": {
