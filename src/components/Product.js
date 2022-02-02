@@ -1,7 +1,21 @@
 import { StarIcon } from "@heroicons/react/outline";
 import React from "react";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../slices/basketSlice";
 function Product({ price, category, title, description, image, id }) {
+  const dispatch = useDispatch();
+  const addItemToBaskit = () => {
+    const product = {
+      price,
+      category,
+      title,
+      description,
+      image,
+      id,
+    };
+    dispatch(addToBasket(product));
+  };
   return (
     <div>
       {/* <div class="relative flex flex justify-center items-center h-screen bg-gray-100 w-full"> */}
@@ -54,7 +68,10 @@ function Product({ price, category, title, description, image, id }) {
           <p class="text-xs line-clamp-2 text-gray-500 ">{description}</p>
           <div class="w-full flex justify-between items-center">
             <h1 class="font-bold text-gray-500">${price}</h1>
-            <button class="bg-gray-700 mr-5 text-white px-3 py-1 rounded-sm shadow-md">
+            <button
+              onClick={addItemToBaskit}
+              class="bg-gray-700 mr-5 text-white px-3 py-1 rounded-sm shadow-md"
+            >
               Add
             </button>
           </div>

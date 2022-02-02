@@ -1,19 +1,26 @@
 import React from "react";
 import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
+import { useSelector } from "react-redux";
+import { selectItems } from "../slices/basketSlice";
 function Header() {
+  const router = useRouter();
   const { data: session } = useSession();
+  const items = useSelector(selectItems);
+
   // console.log(session.user.name);
   return (
     <div>
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
         <div className=" mt-2 flex items-center sm:flex-grow-0 ">
           <Image
+            onClick={() => router.push("/")}
             objectFit="contain"
             src="https://links.papareact.com/f90"
             height={40}
@@ -42,10 +49,13 @@ function Header() {
             <p>returns </p>
             <p className="font-extrabold md:text-sm ">orders </p>
           </div>
-          <div className=" relative flex items-center link">
+          <div
+            onClick={() => router.push("/Checkout")}
+            className=" relative flex items-center link"
+          >
             <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full   text-black font-bold        ">
               {" "}
-              0
+              {items.length}
             </span>
             <ShoppingCartIcon className=" hidden md:inline h-10" />
             <p className="font-extrabold md:text-sm "> baskit</p>
