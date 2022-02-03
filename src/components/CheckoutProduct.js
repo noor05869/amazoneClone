@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { removeFromBasket } from "../slices/basketSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromBasket, selectTotal } from "../slices/basketSlice";
 import { useSession } from "next-auth/react";
 function CheckoutProduct({ items }) {
   console.log("items", items);
   const router = useRouter();
+  const total = useSelector(selectTotal);
   const { data: session } = useSession();
   const dispatch = useDispatch();
 
@@ -106,12 +107,12 @@ function CheckoutProduct({ items }) {
                         </p>
                         <div className="flex items-center justify-between pt-5 pr-6">
                           <div className="flex itemms-center">
-                            <p className="text-xs leading-3 underline text-gray-800 cursor-pointer">
+                            {/* <p className="text-xs leading-3 underline text-gray-800 cursor-pointer">
                               Add to favorites
-                            </p>
+                            </p> */}
                             <div onClick={() => removeFromeBasket(item.id)}>
-                              <p className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">
-                                Remove{item.id}
+                              <p className="text-xs leading-3 underline text-indigo-600 pl-5 cursor-pointer">
+                                Remove
                               </p>
                             </div>
                           </div>
@@ -135,7 +136,7 @@ function CheckoutProduct({ items }) {
                           Subtotal
                         </p>
                         <p className="text-base leading-none text-gray-800">
-                          $9,000
+                          ${total}
                         </p>
                       </div>
                       <div className="flex items-center justify-between pt-5">
@@ -161,7 +162,7 @@ function CheckoutProduct({ items }) {
                           Total
                         </p>
                         <p className="text-2xl font-bold leading-normal text-right text-gray-800">
-                          $10,240
+                          ${total}
                         </p>
                       </div>
                       <div className="mt-6">
