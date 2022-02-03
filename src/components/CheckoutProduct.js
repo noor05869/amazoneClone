@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
+import { useDispatch } from "react-redux";
+import { removeFromBasket } from "../slices/basketSlice";
 function CheckoutProduct({ items }) {
   console.log("items", items);
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  function removeFromeBasket(id) {
+    // alert(id);
+    dispatch(removeFromBasket({ id }));
+  }
   const [show, setShow] = useState(true);
   return (
     <div>
@@ -100,9 +107,11 @@ function CheckoutProduct({ items }) {
                             <p className="text-xs leading-3 underline text-gray-800 cursor-pointer">
                               Add to favorites
                             </p>
-                            <p className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">
-                              Remove
-                            </p>
+                            <div onClick={() => removeFromeBasket(item.id)}>
+                              <p className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">
+                                Remove{item.id}
+                              </p>
+                            </div>
                           </div>
                           <p className="text-base font-black leading-none text-gray-800">
                             $9,000
