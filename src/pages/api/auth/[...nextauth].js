@@ -10,5 +10,5 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-  secret: "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",
+  secret: "",
 });
