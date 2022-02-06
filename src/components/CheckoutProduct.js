@@ -4,18 +4,19 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromBasket, selectTotal } from "../slices/basketSlice";
 import { useSession } from "next-auth/react";
-function CheckoutProduct({ items }) {
+
+function CheckoutProduct({ items, createCheckoutSession }) {
   console.log("items", items);
   const router = useRouter();
   const total = useSelector(selectTotal);
   const { data: session } = useSession();
   const dispatch = useDispatch();
-
   function removeFromeBasket(id) {
     // alert(id);
     dispatch(removeFromBasket({ id }));
   }
   const [show, setShow] = useState(true);
+
   return (
     <div>
       {/* <div className="flex items-center justify-center py-8">
@@ -167,7 +168,8 @@ function CheckoutProduct({ items }) {
                       </div>
                       <div className="mt-6">
                         <button
-                          onClick={() => setShow(!show)}
+                          role="link"
+                          onClick={createCheckoutSession}
                           className={`text-base leading-none w-full py-5 ${
                             !session
                               ? "bg-yellow-400 hover:bg-yellow-500 text-black"

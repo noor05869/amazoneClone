@@ -4,9 +4,29 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { selectItems } from "../slices/basketSlice";
 import CheckoutProduct from "../components/CheckoutProduct";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+const stripePromise = loadStripe(process.env.stripe_public_key);
+
 function Checkout() {
+  const { data: session } = useSession();
   const items = useSelector(selectItems);
-  console.log("first", items.image);
+  console.log("first", session);
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+    const checkOutSession = await axios.post("/api/create-checkout-session", {
+      items: items,
+      email: session.user.email,
+    });
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkOutSession.data.id,
+    });
+    if (result.error) {
+      alert(result.error.message);
+    }
+  };
   return (
     // <div className="bg-gray-100">
     //   <Header />
@@ -19,7 +39,10 @@ function Checkout() {
     //         objectFit="contain"
     //       />
     <div className="flex flex-col p-5 space-y-10 bg-white">
-      <CheckoutProduct items={items} />
+      <CheckoutProduct
+        createCheckoutSession={createCheckoutSession}
+        items={items}
+      />
     </div>
     //     </div>
     //   </div>
