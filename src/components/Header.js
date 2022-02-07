@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/outline";
 import { useSelector } from "react-redux";
 import { selectItems } from "../slices/basketSlice";
-function Header() {
+function Header({ products, inputref, handleChange }) {
   const router = useRouter();
   const { data: session } = useSession();
   const items = useSelector(selectItems);
@@ -30,6 +30,8 @@ function Header() {
         </div>
         <div className=" hidden sm:flex items-center h-10 rounded-md cursor-pointer flex-grow bg-yellow-400 hover:bg-yellow-500">
           <input
+            ref={inputref}
+            onChange={handleChange}
             className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
             type="text"
           />
